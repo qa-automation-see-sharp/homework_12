@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+.idea/
 
 # Build results
 
@@ -40,10 +41,9 @@ x64/
 *.vssscc
 .builds
 *.pidb
+*.log
 *.svclog
 *.scc
-*.vs
-*.idea
 
 # Visual C++ cache files
 ipch/

@@ -1,4 +1,4 @@
-namespace LibraryV3.xUnit.TestsApi;
+namespace LibraryV3.xUnit.Tests.Api;
 
 public class UnitTest1
 {

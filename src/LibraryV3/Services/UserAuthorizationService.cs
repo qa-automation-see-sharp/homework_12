@@ -53,7 +53,7 @@ public class UserAuthorizationService : IUserAuthorizationService
 
         if (user == null || user.Password != password)
         {
-            _logger.Log(LogLevel.Debug, $"User with nickname {user?.NickName} doesnt exist or password is incorrect.");
+            _logger.Log(LogLevel.Debug, $"User with nickname {user.NickName} doesnt exist or password is incorrect.");
             return null;
         }
 
