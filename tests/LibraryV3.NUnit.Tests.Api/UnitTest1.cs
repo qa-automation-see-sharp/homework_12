@@ -1,6 +1,6 @@
 namespace LibraryV3.NUnit.Tests.Api;
 
-public class Tests
+public class CreateBookTests : LibraryV2TestFixture
 {
     [SetUp]
     public void Setup()
