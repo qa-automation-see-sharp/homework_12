@@ -1,9 +1,9 @@
 using System.Text;
-using LibraryV2.Models;
-using LibraryV2.Tests.Api.TestHelpers;
+using LibraryV3.Contracts.Domain;
+using LibraryV3.NUnit.Tests.Api.TestHelpers;
 using Newtonsoft.Json;
 
-namespace LibraryV2.Tests.Api.Services;
+namespace LibraryV3.NUnit.Tests.Api.Services;
 
 public class LibraryHttpService
 {
@@ -12,9 +12,9 @@ public class LibraryHttpService
     private User? DefaultUser { get; set; }
     private AuthorizationToken? AuthorizationToken { get; set; }
 
-    public LibraryHttpService()
+    public LibraryHttpService(HttpClient httpClient)
     {
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
         DefaultUser = DataHelper.CreateUser();
     }
 

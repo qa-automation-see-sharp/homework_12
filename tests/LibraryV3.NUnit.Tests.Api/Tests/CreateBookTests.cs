@@ -1,13 +1,13 @@
 using System.Net;
-using LibraryV2.Models;
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using LibraryV3.Contracts.Domain;
+using LibraryV3.NUnit.Tests.Api.Fixtures;
+using LibraryV3.NUnit.Tests.Api.Services;
 using Newtonsoft.Json;
-using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
+using static LibraryV3.NUnit.Tests.Api.TestHelpers.DataHelper;
 
-namespace LibraryV2.Tests.Api.Tests;
+namespace LibraryV3.NUnit.Tests.Api.Tests;
 
-public sealed class CreateBookTests : LibraryV2TestFixture
+public sealed class CreateBookTests : LibraryV3TestFixture
 {
     [Test]
     public async Task PostBook_ShouldReturnCreated()

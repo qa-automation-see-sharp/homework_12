@@ -1,6 +1,6 @@
-using LibraryV2.Models;
+using LibraryV3.Contracts.Domain;
 
-namespace LibraryV2.Tests.Api.TestHelpers;
+namespace LibraryV3.NUnit.Tests.Api.TestHelpers;
 
 public class DataHelper
 {

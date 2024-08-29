@@ -1,17 +1,19 @@
-using LibraryV2.Tests.Api.Services;
+using LibraryV3.NUnit.Tests.Api.Services;
+using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace LibraryV2.Tests.Api.Fixtures;
+namespace LibraryV3.NUnit.Tests.Api.Fixtures;
 
 [TestFixture]
-public class LibraryV2TestFixture : GlobalSetUpFixture
+public class LibraryV3TestFixture
 {
     protected LibraryHttpService LibraryHttpService;
+    protected WebApplicationFactory<IApiMarker> _factory = new(); 
 
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
-        LibraryHttpService = new LibraryHttpService();
-        LibraryHttpService.Configure("http://localhost:5111/");
+        var httpClient = _factory.CreateClient();
+        LibraryHttpService = new LibraryHttpService(httpClient);
         await LibraryHttpService.CreateDefaultUser();
         await LibraryHttpService.Authorize();
     }
