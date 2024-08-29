@@ -1,8 +1,15 @@
-using System;
+namespace LibraryV2.Tests.Api.Fixtures;
 
-namespace LibraryV3.NUnit.Tests.Api.Fixtures;
-
+[SetUpFixture]
 public class GlobalSetUpFixture
 {
-
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
+    {       
+    }
+    
+    [OneTimeTearDown]
+    public void OneTimeTearDown()
+    {
+    }
 }
