@@ -6,16 +6,15 @@ using LibraryV3.NUnit.Tests.Api.TestHelpers;
 
 namespace LibraryV3.NUnit.Tests.Api.Tests;
 
-[TestFixture]
 public class GetBooksTests : LibraryV3TestFixture
 {
     private Book Book { get; set; }
 
-    [OneTimeSetUp]
+    [SetUp]
     public new async Task OneTimeSetUp()
     {
         Book = DataHelper.BookHelper.RandomBook();
-        var a = await HttpService.PostBook(Book);
+        await HttpService.PostBook(Book);
     }
 
     [Test]
@@ -24,7 +23,6 @@ public class GetBooksTests : LibraryV3TestFixture
         var response = await HttpService.GetBooksByTitle(Book.Title);
         var listStringBooks = await response.Content.ReadAsStringAsync();
         var json = JsonConvert.DeserializeObject<List<Book>>(listStringBooks);
-
 
         Assert.Multiple(() =>
         {
