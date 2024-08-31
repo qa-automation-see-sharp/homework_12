@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace LibraryV3.xUnit.Tests.Api.Services;
 
-public class LibraryHttpService : IAsyncLifetime
+public class LibraryHttpService
 {
     private readonly WebApplicationFactory<IApiMarker> _factory;
     private readonly HttpClient _httpClient;
@@ -16,6 +16,8 @@ public class LibraryHttpService : IAsyncLifetime
 
     public LibraryHttpService()
     {
+        WebApplicationFactory<IApiMarker> _factory = new();
+        _httpClient = _factory.CreateClient();
         DefaultUser = DataHelper.CreateUser();
     }
 
@@ -159,13 +161,5 @@ public class LibraryHttpService : IAsyncLifetime
         Console.WriteLine($"Content: \n{jsonString}");
 
         return response;
-    }
-
-    public async Task InitializeAsync()
-    {
-    }
-
-    public async Task DisposeAsync()
-    {
     }
 }

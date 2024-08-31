@@ -2,10 +2,11 @@ using LibraryV3.xUnit.Tests.Api.Services;
 using LibraryV3.Contracts.Domain;
 using Newtonsoft.Json;
 using System.Net;
+using LibraryV3.xUnit.Tests.Api.TestHelpers;
 
 namespace LibraryV3.xUnit.Tests.Api.Tests;
 
-public class UsersTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
+public class UsersTests : IClassFixture<LibraryHttpService>
 {
     private readonly LibraryHttpService _libraryHttpService;      
 
@@ -14,23 +15,23 @@ public class UsersTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
         _libraryHttpService = libraryHttpService;
     }
 
-    public async Task InitializeAsync()
-    {                    
-    }
-
     [Fact]
     public async Task CreateUser_ShouldReturnCreated()
     {
+        
+        //Arrange
+        var user = DataHelper.CreateUser();
+
         //Act
-        var httpResponseMessage = await _libraryHttpService.CreateUser(_libraryHttpService.DefaultUser);
+        var httpResponseMessage = await _libraryHttpService.CreateUser(user);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var response = JsonConvert.DeserializeObject<User>(content);
 
         Assert.Multiple(() =>
         {
             Assert.Equal(HttpStatusCode.Created, httpResponseMessage.StatusCode);
-            Assert.Equal(_libraryHttpService.DefaultUser.FullName, response.FullName);
-            Assert.Equal(_libraryHttpService.DefaultUser.NickName, response.NickName);
+            Assert.Equal(user.FullName, response.FullName);
+            Assert.Equal(user.NickName, response.NickName);
         });
     }
 
@@ -71,14 +72,13 @@ public class UsersTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
     [Fact]
     public async Task Login_UserDoesNotExist_ShouldReturnBadRequest()
     {
+        //Arrange
+        var user = DataHelper.CreateUser();
+
         //Act
-        var httpResponseMessage = await _libraryHttpService.LogIn(_libraryHttpService.DefaultUser);
+        var httpResponseMessage = await _libraryHttpService.LogIn(user);
 
         //Assert
         Assert.Equal(HttpStatusCode.BadRequest, httpResponseMessage.StatusCode);
-    }
-
-    public async Task DisposeAsync()
-    {
     }
 }
