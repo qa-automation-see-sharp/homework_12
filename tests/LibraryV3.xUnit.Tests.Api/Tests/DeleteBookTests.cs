@@ -1,37 +1,54 @@
 using System.Net;
-using LibraryV2.Models;
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using LibraryV3.Contracts.Domain;
+using LibraryV3.xUnit.Tests.Api.Services;
 using Newtonsoft.Json;
-using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
+using LibraryV3.xUnit.Tests.Api.TestHelpers;
 
-namespace LibraryV2.Tests.Api.Tests;
+namespace LibraryV3.xUnit.Tests.Api.Tests;
 
-public class DeleteBookTests : LibraryV2TestFixture
+public class DeleteBookTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
 {
-    [Test]
+    private readonly LibraryHttpService _libraryHttpService;   
+
+    public DeleteBookTests(LibraryHttpService libraryHttpService)
+    {
+        _libraryHttpService = libraryHttpService;
+    }
+
+    public async Task InitializeAsync()
+    {   
+        //Arrange
+        await _libraryHttpService.CreateDefaultUser();
+        await _libraryHttpService.Authorize();        
+    }
+
+    [Fact]
     public async Task DeleteBook_ShouldReturnOK()
     {
         //Arrange
-        var book = CreateBook();
-        await LibraryHttpService.PostBook(book);
+        var book = DataHelper.CreateBook();
+        await _libraryHttpService.PostBook(book);
 
         //Act
-        var response = await LibraryHttpService.DeleteBook(book.Title, book.Author);
+        var response = await _libraryHttpService.DeleteBook(book.Title, book.Author);
 
         //Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
-    [Test]
+    [Fact]
     public async Task DeleteBook_NotExistingBook_ShouldReturnNotFound()
     {
         //Arrange - N/A
 
         //Act
-        var httpResponseMessage = await LibraryHttpService.DeleteBook(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+        var httpResponseMessage = await _libraryHttpService.DeleteBook(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
         //Assert
-        Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        Assert.Equal(HttpStatusCode.NotFound, httpResponseMessage.StatusCode);
+    }
+
+    public async Task DisposeAsync()
+    {
     }
 }

@@ -1,83 +1,95 @@
 using System.Net;
-using LibraryV2.Models;
-using LibraryV2.Tests.Api.Fixtures;
-using LibraryV2.Tests.Api.Services;
+using LibraryV3.Contracts.Domain;
+using LibraryV3.xUnit.Tests.Api.Services;
+using LibraryV3.xUnit.Tests.Api.TestHelpers;
 using Newtonsoft.Json;
-using static LibraryV2.Tests.Api.TestHelpers.DataHelper;
 
 
-namespace LibraryV2.Tests.Api.Tests;
+namespace LibraryV3.xUnit.Tests.Api.Tests;
 
-public class GetBooksTests : LibraryV2TestFixture
+public class GetBooksTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
 {
+    private readonly LibraryHttpService _libraryHttpService;
+    private Book _book;
 
-    [Test]
+    public GetBooksTests(LibraryHttpService libraryHttpService)
+    {
+        _libraryHttpService = libraryHttpService;
+    }
+
+    public async Task InitializeAsync()
+    {   
+        //Arrange
+        await _libraryHttpService.CreateDefaultUser();
+        await _libraryHttpService.Authorize();
+        _book = DataHelper.CreateBook();
+        await _libraryHttpService.PostBook(_book);
+    }
+
+    [Fact]
     public async Task GetBooksByTitle_ShouldReturnOK()
     {
-        //Arrange
-        var book = CreateBook();
-        await LibraryHttpService.PostBook(book);
-
         //Act
-        var response = await LibraryHttpService.GetBooksByTitle(book.Title);
+        var response = await _libraryHttpService.GetBooksByTitle(_book.Title);
         var bookJsonString = await response.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(bookJsonString);
 
         //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
-            Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
-            Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(_book.Title, bookFromResponse[0].Title);
+            Assert.Equal(_book.Author, bookFromResponse[0].Author);
+            Assert.Equal(_book.YearOfRelease, bookFromResponse[0].YearOfRelease);
         });
     }
 
-    [Test]
+    [Fact]
     public async Task GetBooksByTitle_BookDoesNotExist_ShouldReturnNotFound()
     {
         //Arrange
         var title = Guid.NewGuid().ToString() + "additional characters";
 
         //Act
-        var response = await LibraryHttpService.GetBooksByTitle(title);
+        var response = await _libraryHttpService.GetBooksByTitle(title);
 
         //Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
-    [Test]
+    [Fact]
     public async Task GetBooksByAuthor_ShouldReturnOK()
     {
-        //Arrange
-        var book = CreateBook();
-        await LibraryHttpService.PostBook(book);
-
         //Act
-        var response = await LibraryHttpService.GetBooksByAuthor(book.Author);
+        var response = await _libraryHttpService.GetBooksByAuthor(_book.Author);
         var bookJsonString = await response.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<List<Book>>(bookJsonString);
 
         //Assert
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(bookFromResponse[0].Title, Is.EqualTo(book.Title));
-            Assert.That(bookFromResponse[0].Author, Is.EqualTo(book.Author));
-            Assert.That(bookFromResponse[0].YearOfRelease, Is.EqualTo(book.YearOfRelease));
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(_book.Title, bookFromResponse[0].Title);
+            Assert.Equal(_book.Author, bookFromResponse[0].Author);
+            Assert.Equal(_book.YearOfRelease, bookFromResponse[0].YearOfRelease);
         });
     }
 
-    [Test]
+    [Fact]
     public async Task GetBooksByAuthor_BookDoesNotExist_ShouldReturnNotFound()
     {
         //Arrange
         var author = Guid.NewGuid().ToString() + "additional characters";
 
         //Act
-        var response = await LibraryHttpService.GetBooksByAuthor(author);
+        var response = await _libraryHttpService.GetBooksByAuthor(author);
 
         //Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _libraryHttpService.DeleteBook(_book.Title, _book.Author);
     }
 }

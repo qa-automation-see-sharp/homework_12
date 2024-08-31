@@ -1,20 +1,21 @@
 using System.Text;
-using LibraryV2.Models;
-using LibraryV2.Tests.Api.TestHelpers;
+using LibraryV3.Contracts.Domain;
+using LibraryV3.xUnit.Tests.Api.TestHelpers;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 
-namespace LibraryV2.Tests.Api.Services;
+namespace LibraryV3.xUnit.Tests.Api.Services;
 
-public class LibraryHttpService
+public class LibraryHttpService : IAsyncLifetime
 {
+    private readonly WebApplicationFactory<IApiMarker> _factory;
     private readonly HttpClient _httpClient;
 
-    private User? DefaultUser { get; set; }
-    private AuthorizationToken? AuthorizationToken { get; set; }
+    public User? DefaultUser { get; set; }
+    public AuthorizationToken? AuthorizationToken { get; set; }
 
     public LibraryHttpService()
     {
-        _httpClient = new HttpClient();
         DefaultUser = DataHelper.CreateUser();
     }
 
@@ -158,5 +159,13 @@ public class LibraryHttpService
         Console.WriteLine($"Content: \n{jsonString}");
 
         return response;
+    }
+
+    public async Task InitializeAsync()
+    {
+    }
+
+    public async Task DisposeAsync()
+    {
     }
 }

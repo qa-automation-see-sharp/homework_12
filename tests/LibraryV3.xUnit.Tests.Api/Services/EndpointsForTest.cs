@@ -1,4 +1,4 @@
-namespace LibraryV2.Tests.Api.Services;
+namespace LibraryV3.xUnit.Tests.Api.Services;
 
 public class EndpointsForTest
 {
