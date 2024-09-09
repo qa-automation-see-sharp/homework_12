@@ -19,13 +19,18 @@ public class BookRepository : IBookRepository
 
     public Book? GetBook(Func<Book, bool> condition)
     {
-        return _books.FirstOrDefault(condition);
+        var book = _books.FirstOrDefault(condition);
+        Console.WriteLine(book != null ? $"Book found: {book.Title} by {book.Author}" : "Book not found");
+        return book;
+        
     }
 
 
     public List<Book> GetMany(Func<Book, bool> condition)
     {
-        return _books.Where(condition).ToList();
+        var books = _books.Where(condition).ToList();
+        Console.WriteLine(books.Any() ? $"Found {books.Count} book(s)" : "No books found"); 
+        return books;
     }
 
     public bool Delete(Func<Book, bool> condition)
@@ -33,15 +38,22 @@ public class BookRepository : IBookRepository
         var bookToRemove = _books.FirstOrDefault(condition);
         if (bookToRemove is null)
         {
+            Console.WriteLine("Book to delete not found");
             return false;
         }
 
         _books.Remove(bookToRemove);
+        Console.WriteLine($"Deleted book: {bookToRemove.Title} by {bookToRemove.Author}");
         return true;
     }
 
     public bool Exists(Book book)
     {
         return _books.Exists(b => b.Title == book.Title && b.Author == book.Author);
+    }
+
+    public List<Book> GetAll()
+    {
+        return _books.ToList();
     }
 }

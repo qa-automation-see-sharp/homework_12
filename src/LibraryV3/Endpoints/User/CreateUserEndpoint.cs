@@ -17,6 +17,11 @@ public static class CreateUserEndpoint
                 return Results.BadRequest($"User with nickname {user.NickName} already exists");
             }
 
+            if (string.IsNullOrWhiteSpace(user.NickName) || string.IsNullOrWhiteSpace(user.Password))
+            {
+                return Results.BadRequest("User must have a full nickname and password");
+            }
+
             repository.AddUser(user);
 
             return Results.Created(ApiEndpoints.Users.Register, new { nickName = user.NickName , fullName = user.FullName});
@@ -24,7 +29,8 @@ public static class CreateUserEndpoint
             .WithName(Name)
             .Produces<Contracts.Domain.User>()
             .Produces(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status400BadRequest);
 
         return app;
     }

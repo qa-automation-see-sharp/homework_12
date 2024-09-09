@@ -9,4 +9,6 @@ public interface IBookRepository
     public List<Book> GetMany(Func<Book, bool> condition);
     public bool Delete(Func<Book, bool> condition);
     public bool Exists(Book book);
+
+    public List<Book> GetAll();
 }

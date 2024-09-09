@@ -7,6 +7,7 @@ public static class GetBookEndpoints
 {
     public const string Name = "GetBooksByTitle";
     public const string GetAllBooksByAuthor = "GetBooksByAuthor";
+    public const string GetAllBooks = "GetAllBooks";
 
     public static IEndpointRouteBuilder MapGetBooksByTitle(this IEndpointRouteBuilder app)
     {
@@ -44,6 +45,26 @@ public static class GetBookEndpoints
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status401Unauthorized);
+
+        return app;
+    }
+
+    public static IEndpointRouteBuilder MapGetAllBooks(this IEndpointRouteBuilder app)
+    {
+        app
+            .MapGet(ApiEndpoints.Books.GetAll, (
+                IBookRepository repository) =>
+            {
+                Console.WriteLine("Recieve request for all books: ");
+                var result = repository.GetAll();
+                Console.WriteLine($"Found {result.Count} books.");
+
+                return result.Count is 0 ? Results.NotFound($"No books was found.") : Results.Ok(result);
+            })
+            .WithName(GetAllBooks)
+            .Produces<List<Book>>()
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
         return app;
     }

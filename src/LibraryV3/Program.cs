@@ -32,5 +32,6 @@ var app = builder.Build();
     app.MapCreateBook();
     app.MapGetBooksByTitle();
     app.MapGetBooksByAuthor();  
+    app.MapGetAllBooks();
     app.MapDeleteBook();  
     app.Run();

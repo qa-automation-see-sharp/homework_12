@@ -18,6 +18,7 @@ public static class ApiEndpoints
         public const string Create = $"{Base}/create";
         public const string GetBooksByTitle = $"{Base}/by-title/{{title}}";
         public const string GetBooksByAuthor = $"{Base}/by-author/{{author}}";
+        public const string GetAll = $"{Base}/all";
         public const string Delete = $"{Base}/delete";
     }
 }
