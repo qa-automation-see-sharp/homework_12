@@ -52,7 +52,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Create a book with no Authorisaton token
         [Test]
-        public async Task IfNoAuthorizationToken_Return_Unauthorized()
+        public async Task CreateBook_IfNoAuthorizationToken_Return_Unauthorized()
         {
             var random = new Random();
             var book = new Book
@@ -74,7 +74,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Create a book with new title and author
         [Test]
-        public async Task IfNewTitleAndAuthor_Return_Created()
+        public async Task CreateBook_IfNewTitleAndAuthor_Return_Created()
         {
             var book = new Book
             {
@@ -99,7 +99,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Create a new book with the same title but new author
         [Test]
-        public async Task IfSameTitleNewAuthor_Return_Created()
+        public async Task CreateBook_IfSameTitleNewAuthor_Return_Created()
         {
             var book = new Book
             {
@@ -125,7 +125,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Create a book with new title but the same author
         [Test]
-        public async Task IfNewTitleSameAuthor_Return_Created()
+        public async Task CreateBook_IfNewTitleSameAuthor_Return_Created()
         {
             var book = new Book
             {
@@ -150,7 +150,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Create a book with the same title and author
         [Test]
-        public async Task IfSameTitleAndAuthor_Return_BadRequest()
+        public async Task CreateBook_IfSameTitleAndAuthor_Return_BadRequest()
         {
             var book = new Book
             {

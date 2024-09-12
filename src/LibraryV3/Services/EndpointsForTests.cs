@@ -19,7 +19,6 @@
             public static string Create (string token) => $"{Base}/create/?token={token}";
             public static string GetBooksByTitle(string title) => $"{Base}/by-title/{title}";
             public static string GetBooksByAuthor(string author) => $"{Base}/by-author/{author}";
-            //public const string GetAll = $"{Base}/all"; 
             public static string GetAll() => $"{Base}/all";
             public static string Delete(string title, string author, string token) => $"{Base}/delete/?title={title}&author={author}&token={token}";
         }

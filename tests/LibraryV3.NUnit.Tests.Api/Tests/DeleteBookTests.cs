@@ -78,7 +78,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
         }
         //Delete book if book does not exist return not found
         [Test]
-        public async Task DeleteBook_IfNotExistInLibrary_return_Ok()
+        public async Task DeleteBook_IfNotExistInLibrary_return_NotFound()
         {
             var Book = new Book
             {

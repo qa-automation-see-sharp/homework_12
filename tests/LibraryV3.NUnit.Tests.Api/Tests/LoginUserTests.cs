@@ -16,7 +16,6 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
     public class LoginUserTests
     {
         private User _testUser;
-        private readonly string _time = DateTime.Now.ToString("yyyyMMddHHmmss");
         private string _token = string.Empty;
 
         private LibraryHttpService _libraryHttpService;
@@ -39,7 +38,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Login with correct credentials return Ok
         [Test]
-        public async Task IfCredentialsAreCorrect_Return_Ok()
+        public async Task Login_IfCredentialsAreCorrect_Return_Ok()
         {
             var user = new User
             {
@@ -63,7 +62,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Login with correct NickName and wrong password return BadRequest
         [Test]
-        public async Task IfPasswordIsIncorrect_Return_BadRequest()
+        public async Task Login_IfPasswordIsIncorrect_Return_BadRequest()
         {
             var user = new User
             {
@@ -84,7 +83,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Login with wrong NickName and correct password return BadRequest
         [Test]
-        public async Task IfNickNameIsIncorrect_Return_BadRequest()
+        public async Task Login_IfNickNameIsIncorrect_Return_BadRequest()
         {
             var user = new User
             {
@@ -105,7 +104,7 @@ namespace LibraryV3.NUnit.Tests.Api.Tests
 
         //Login with wrong NickName and wrong password return BadRequest
         [Test]
-        public async Task IfNickNameAndPasswordAreIncorrect_Return_BadRequest()
+        public async Task Login_IfNickNameAndPasswordAreIncorrect_Return_BadRequest()
         {
             var user = new User
             {

@@ -13,6 +13,10 @@ namespace LibraryV3.Services
         private WebApplicationFactory <IApiMarker> _factory;
         private readonly HttpClient _client;
         private User? _testUser { get; set; }
+        private Book? _testBook { get; set; }
+
+        private List<List<Book>> _library { get; set; }
+        public List<List<Book>> Library => _library;
         private AuthorizationToken? _authorizationToken { get; set; }
 
         // Constructor for LibraryHttpService
@@ -61,6 +65,74 @@ namespace LibraryV3.Services
 
             return this;
         }
+
+        public async Task<LibraryHttpService> CreateTestBook()
+        {
+            _testBook = new Book
+            {
+                Title = "Test Book",
+                Author = "Test Author",
+                YearOfRelease = 2021
+            };
+
+            var url = EndpointsForTests.Books.Create(_authorizationToken.Token);
+            var json = JsonConvert.SerializeObject(_testBook);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync(url, content);
+            var jsonResult = await response.Content.ReadAsStringAsync();
+
+            Console.WriteLine($"Created test Book: {jsonResult}");
+
+            return this;
+        }
+
+        public async Task<LibraryHttpService> CreateLibrary()
+        {
+            if (_authorizationToken == null)
+            {
+                throw new InvalidOperationException("Authorization token is not initialized.");
+            }
+            if (_client == null)
+            {
+                throw new InvalidOperationException("HTTP client is not initialized.");
+            }
+            _library = new()
+            {
+                new()
+                {   new Book() { Title = "The Book 1", Author = "The Author 1", YearOfRelease = new Random().Next(1900, 2024) },
+                    new Book() { Title = "The Book 2", Author = "The Author 1", YearOfRelease=new Random().Next(1900, 2024) },
+                    new Book() { Title = "The Book 3", Author = "The Author 1", YearOfRelease=new Random().Next(1900, 2024) }
+                },
+                new()
+                {
+                    new Book() { Title = "The Book 1", Author = "The Author 2", YearOfRelease = new Random().Next(1900, 2024) },
+                    new Book() { Title = "The Book 2", Author = "The Author 2", YearOfRelease=new Random().Next(1900, 2024) },
+                    new Book() { Title = "The Book 3", Author = "The Author 2", YearOfRelease=new Random().Next(1900, 2024) }
+                },
+                new()
+                {
+                    new Book() { Title = "The Book 1", Author = "The Author 3", YearOfRelease = new Random().Next(1900, 2024) },
+                    new Book() { Title = "The Book 2", Author = "The Author 3", YearOfRelease=new Random().Next(1900, 2024) },
+                    new Book() { Title = "The Book 3", Author = "The Author 3", YearOfRelease=new Random().Next(1900, 2024) }
+                }
+            };
+            foreach (var books in _library)
+            {
+                foreach (var book in books)
+                {
+                    var url = EndpointsForTests.Books.Create(_authorizationToken.Token);
+                    var json = JsonConvert.SerializeObject(book);
+                    var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                    var response = await _client.PostAsync(url, content);
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+                }
+            }
+
+            return this;
+        }
+
+
+            
 
         //Creating a user
         public async Task<HttpResponseMessage> CreateUser(User user)
@@ -111,6 +183,8 @@ namespace LibraryV3.Services
 
             return response;
         }
+
+
 
         public async Task<HttpResponseMessage> GetBooksByTitle(string title)
         {
@@ -173,12 +247,6 @@ namespace LibraryV3.Services
             Console.WriteLine($"BaseAddress: {baseAddress}");
             Console.WriteLine($"StatusCode: {statusCode}");
             Console.WriteLine($"Content: {content}");
-            Console.WriteLine("Content2: ");
-            string[] contentLines = content.Split(new[] {'\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var line in contentLines)
-            {
-                Console.WriteLine(line);
-            }
         }
 
     }
