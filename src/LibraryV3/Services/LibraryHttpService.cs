@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using LibraryV3.Contracts.Domain;
+using LibraryV3.TestHelpers;
 using Newtonsoft.Json;
 
 namespace LibraryV3.Services;
