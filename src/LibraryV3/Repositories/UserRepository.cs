@@ -13,10 +13,7 @@ public class UserRepository : IUserRepository
 
     public bool AddUser(User user)
     {
-        if (_users.Exists(u => u.NickName == user.NickName))
-        {
-            return false;
-        }
+        if (_users.Exists(u => u.NickName == user.NickName)) return false;
 
         _users.Add(user);
         return true;

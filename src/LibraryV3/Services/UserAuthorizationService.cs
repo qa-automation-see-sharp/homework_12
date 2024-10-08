@@ -5,9 +5,9 @@ namespace LibraryV3.Services;
 
 public class UserAuthorizationService : IUserAuthorizationService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly List<AuthorizationToken> _tokens = new();
     private readonly ILogger<UserAuthorizationService> _logger;
+    private readonly List<AuthorizationToken> _tokens = new();
+    private readonly IUserRepository _userRepository;
 
     public UserAuthorizationService(IUserRepository userRepository, ILogger<UserAuthorizationService> logger)
     {
@@ -20,13 +20,11 @@ public class UserAuthorizationService : IUserAuthorizationService
         var token = _tokens.FirstOrDefault(t => t.Token == authorizationToken);
 
         if (token is not null)
-        {
             if (token.ExpirationTime > DateTime.Now)
             {
                 _logger.Log(LogLevel.Debug, $"User {token.NickName} is authorized.");
                 return true;
             }
-        }
 
         return false;
     }
@@ -36,13 +34,11 @@ public class UserAuthorizationService : IUserAuthorizationService
         var token = _tokens.FirstOrDefault(t => t.NickName == nickName);
 
         if (token is not null)
-        {
             if (token.ExpirationTime > DateTime.Now)
             {
                 _logger.Log(LogLevel.Debug, $"User {token.NickName} is authorized.");
                 return true;
             }
-        }
 
         return false;
     }
@@ -58,10 +54,7 @@ public class UserAuthorizationService : IUserAuthorizationService
         }
 
         var tmp = _tokens.FirstOrDefault(t => t.NickName == nickName);
-        if (tmp is not null)
-        {
-            _tokens.Remove(tmp);
-        }
+        if (tmp is not null) _tokens.Remove(tmp);
 
         var token = new AuthorizationToken
         {

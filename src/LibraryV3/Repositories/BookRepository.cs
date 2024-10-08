@@ -4,17 +4,17 @@ namespace LibraryV3.Repositories;
 
 public class BookRepository : IBookRepository
 {
-    private readonly ILogger<BookRepository> _logger;
-    public void AddBook(Book book)
-    {
-        _books.Add(book);
-    }
-
     private readonly List<Book> _books = new();
+    private readonly ILogger<BookRepository> _logger;
 
     public BookRepository(ILogger<BookRepository> logger)
     {
         _logger = logger;
+    }
+
+    public void AddBook(Book book)
+    {
+        _books.Add(book);
     }
 
     public Book? GetBook(Func<Book, bool> condition)
@@ -31,10 +31,7 @@ public class BookRepository : IBookRepository
     public bool Delete(Func<Book, bool> condition)
     {
         var bookToRemove = _books.FirstOrDefault(condition);
-        if (bookToRemove is null)
-        {
-            return false;
-        }
+        if (bookToRemove is null) return false;
 
         _books.Remove(bookToRemove);
         return true;

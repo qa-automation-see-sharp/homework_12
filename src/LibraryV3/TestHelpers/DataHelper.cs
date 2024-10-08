@@ -13,7 +13,7 @@ public class DataHelper
             YearOfRelease = new Random().Next(1300, 2024)
         };
     }
-    
+
     public static Book CreateBook(string title, string author)
     {
         return new Book
