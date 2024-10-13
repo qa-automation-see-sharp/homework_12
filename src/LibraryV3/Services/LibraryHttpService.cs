@@ -18,6 +18,8 @@ public class LibraryHttpService
     public LibraryHttpService()
     {
         _httpClient = _factory.CreateClient();
+        CreateDefaultUser().Wait();
+        LogIn(DefaultUser, true).Wait();
     }
 
     public User DefaultUser { get; private set; }

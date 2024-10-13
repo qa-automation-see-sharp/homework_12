@@ -13,12 +13,13 @@ public class GetBooksTests : LibraryTestFixture
     private async Task Initialize()
     {
         await _libraryHttpService.LogIn(_libraryHttpService.DefaultUser, true);
-        await CreateBook();
+        
     }
 
     [Fact]
     public async Task GetBookByTitleAsync_ReturnOK()
     {
+        await CreateBook();
         // Act
         var httpResponseMessage = await _libraryHttpService.GetBooksByTitle(_book.Title);
 
@@ -29,6 +30,7 @@ public class GetBooksTests : LibraryTestFixture
     [Fact]
     public async Task GetBookByAuthorAsync_ReturnOK()
     {
+        await CreateBook();
         // Act
         var httpResponseMessage = await _libraryHttpService.GetBooksByAuthor(_book.Author);
 
