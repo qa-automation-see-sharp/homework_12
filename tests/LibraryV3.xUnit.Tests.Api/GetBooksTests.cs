@@ -2,10 +2,10 @@ using System.Net;
 using LibraryV3.Contracts.Domain;
 using LibraryV3.Fixtures;
 using LibraryV3.TestHelpers;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 
 namespace LibraryV3.xUnit.Tests.Api;
-
 public class GetBooksTests : LibraryTestFixture
 {
     private Book _book;
@@ -45,6 +45,4 @@ public class GetBooksTests : LibraryTestFixture
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         _book = JsonConvert.DeserializeObject<Book>(content);
     }
-}
-
 }

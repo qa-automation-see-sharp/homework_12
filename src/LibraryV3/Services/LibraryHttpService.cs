@@ -2,6 +2,7 @@ using System.Net;
 using System.Text;
 using LibraryV3.Contracts.Domain;
 using LibraryV3.TestHelpers;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 
 namespace LibraryV3.Services;
@@ -9,12 +10,14 @@ namespace LibraryV3.Services;
 public class LibraryHttpService
 {
     private readonly HttpClient _httpClient;
+    
+    private WebApplicationFactory<IApiMarker> _factory = new();
 
     public readonly Dictionary<User, string> TestUsers = new();
 
     public LibraryHttpService()
     {
-        _httpClient = new HttpClient();
+        _httpClient = _factory.CreateClient();
     }
 
     public User DefaultUser { get; private set; }
