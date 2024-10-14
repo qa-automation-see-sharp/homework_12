@@ -1,7 +1,7 @@
 using LibraryV3.Services;
-using NUnit.Framework;
+using Test.Utils;
 
-namespace LibraryV3.Fixtures;
+namespace LibraryV3.NUnit.Tests.Api2;
 
 public class LibraryTestFixture
 {
@@ -11,8 +11,6 @@ public class LibraryTestFixture
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
-        _libraryHttpService.Configure("http://localhost:5111/");
-
         await _libraryHttpService.CreateDefaultUser();
     }
 

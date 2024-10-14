@@ -1,10 +1,9 @@
 using System.Net;
 using LibraryV3.Contracts.Domain;
-using LibraryV3.Fixtures;
-using LibraryV3.TestHelpers;
 using Newtonsoft.Json;
+using Test.Utils.TestHelpers;
 
-namespace LibraryV3.NUnit.Tests.Api;
+namespace LibraryV3.NUnit.Tests.Api2;
 
 public class GetBooksTests: LibraryTestFixture
 {

@@ -1,4 +1,4 @@
-namespace LibraryV3.Services;
+namespace Test.Utils;
 
 public class TestApiEndpoint
 {

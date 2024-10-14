@@ -1,11 +1,12 @@
 using System.Net;
 using System.Text;
+using LibraryV3;
 using LibraryV3.Contracts.Domain;
-using LibraryV3.TestHelpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
+using Test.Utils.TestHelpers;
 
-namespace LibraryV3.Services;
+namespace Test.Utils;
 
 public class LibraryHttpService
 {

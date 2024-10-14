@@ -1,6 +1,6 @@
 using System.Net;
-using LibraryV3.Fixtures;
-using LibraryV3.TestHelpers;
+using LibraryV3.NUnit.Tests.Api2;
+using static Test.Utils.TestHelpers.DataHelper;
 
 namespace LibraryV3.xUnit.Tests.Api;
 
@@ -10,7 +10,7 @@ public class UserTests: LibraryTestFixture
     public async Task RegisterUserAsync_ReturnCreated()
     {
         // Arrange
-        var response = await _libraryHttpService.CreateUser(DataHelper.CreateUser());
+        var response = await _libraryHttpService.CreateUser(CreateUser());
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);

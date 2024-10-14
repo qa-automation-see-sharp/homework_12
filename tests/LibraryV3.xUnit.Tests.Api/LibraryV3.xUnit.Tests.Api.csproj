@@ -26,6 +26,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\LibraryV3\LibraryV3.csproj"/>
+        <ProjectReference Include="..\LibraryV3.NUnit.Tests.Api2\LibraryV3.NUnit.Tests.Api2.csproj" />
+        <ProjectReference Include="..\Test.Utils\Test.Utils.csproj" />
     </ItemGroup>
 
 </Project>
