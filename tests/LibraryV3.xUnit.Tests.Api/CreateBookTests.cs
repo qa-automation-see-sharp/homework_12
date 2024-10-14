@@ -2,18 +2,21 @@ using System.Net;
 using LibraryV3.Contracts.Domain;
 using LibraryV3.NUnit.Tests.Api2;
 using Newtonsoft.Json;
+using Test.Utils;
 using Test.Utils.TestHelpers;
 
 namespace LibraryV3.xUnit.Tests.Api;
 
-public class CreateBookTests : LibraryTestFixture
+public class CreateBookTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
 {
-    public CreateBookTests()
+    private readonly LibraryHttpService _libraryHttpService;
+    
+    public CreateBookTests(LibraryHttpService libraryHttpService)
     {
-        OneTimeSetUpAsync().GetAwaiter().GetResult();
+        _libraryHttpService = libraryHttpService;
     }
-
-    private async Task OneTimeSetUpAsync()
+    
+    public async Task InitializeAsync()
     {
         await _libraryHttpService.LogIn(_libraryHttpService.DefaultUser, true);
     }
@@ -57,5 +60,10 @@ public class CreateBookTests : LibraryTestFixture
         Assert.Equal(book.Title, bookFromResponse.Title);
         Assert.Equal(book.Author, bookFromResponse.Author);
         Assert.Equal(book.YearOfRelease, bookFromResponse.YearOfRelease);
+    }
+    
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
     }
 }

@@ -1,6 +1,5 @@
 using System.Net;
 using LibraryV3.Contracts.Domain;
-using LibraryV3.NUnit.Tests.Api2;
 using Newtonsoft.Json;
 using Test.Utils;
 using Test.Utils.TestHelpers;
