@@ -1,11 +1,15 @@
 using System.Net;
 using LibraryV3.NUnit.Tests.Api2;
+using Test.Utils;
 using static Test.Utils.TestHelpers.DataHelper;
 
 namespace LibraryV3.xUnit.Tests.Api;
 
-public class UserTests : LibraryTestFixture
+public class UserTests : IClassFixture<LibraryHttpService>
 {
+    private readonly LibraryHttpService _libraryHttpService;
+    
+    
     [Fact]
     public async Task RegisterUserAsync_ReturnCreated()
     {
@@ -27,4 +31,5 @@ public class UserTests : LibraryTestFixture
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.False(string.IsNullOrEmpty(token));
     }
+
 }

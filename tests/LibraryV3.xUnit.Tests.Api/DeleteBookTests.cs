@@ -2,18 +2,20 @@ using System.Net;
 using LibraryV3.Contracts.Domain;
 using LibraryV3.NUnit.Tests.Api2;
 using Newtonsoft.Json;
+using Test.Utils;
 using Test.Utils.TestHelpers;
 
 namespace LibraryV3.xUnit.Tests.Api;
 
-public class DeleteBookTests : LibraryTestFixture
+public class DeleteBookTests : IAsyncLifetime, IClassFixture<LibraryHttpService>
 {
-    public DeleteBookTests()
+    private readonly LibraryHttpService _libraryHttpService;
+    public DeleteBookTests(LibraryHttpService libraryHttpService)
     {
-        OneTimeSetUpAsync().GetAwaiter().GetResult();
+        _libraryHttpService = libraryHttpService;
     }
-
-    private async Task OneTimeSetUpAsync()
+    
+    public async Task InitializeAsync()
     {
         await _libraryHttpService.LogIn(_libraryHttpService.DefaultUser, true);
     }
@@ -37,5 +39,10 @@ public class DeleteBookTests : LibraryTestFixture
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, deleteResponseMessage.StatusCode);
+    }
+    
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
     }
 }
