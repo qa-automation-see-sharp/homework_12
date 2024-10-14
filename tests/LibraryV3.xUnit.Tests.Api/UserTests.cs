@@ -9,6 +9,10 @@ public class UserTests : IClassFixture<LibraryHttpService>
 {
     private readonly LibraryHttpService _libraryHttpService;
     
+    public UserTests(LibraryHttpService libraryHttpService)
+    {
+        _libraryHttpService = libraryHttpService;
+    }
     
     [Fact]
     public async Task RegisterUserAsync_ReturnCreated()
