@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Test.Utils.TestHelpers;
 
 namespace LibraryV3.xUnit.Tests.Api;
+
 public class GetBooksTests : LibraryTestFixture
 {
     private Book _book;
@@ -12,7 +13,6 @@ public class GetBooksTests : LibraryTestFixture
     private async Task Initialize()
     {
         await _libraryHttpService.LogIn(_libraryHttpService.DefaultUser, true);
-        
     }
 
     [Fact]

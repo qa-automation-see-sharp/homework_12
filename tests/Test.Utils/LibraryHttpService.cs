@@ -11,7 +11,7 @@ namespace Test.Utils;
 public class LibraryHttpService
 {
     private readonly HttpClient _httpClient;
-    
+
     private WebApplicationFactory<IApiMarker> _factory = new();
 
     public readonly Dictionary<User, string> TestUsers = new();

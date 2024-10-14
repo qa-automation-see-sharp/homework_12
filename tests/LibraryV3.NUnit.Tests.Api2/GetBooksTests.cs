@@ -5,7 +5,7 @@ using Test.Utils.TestHelpers;
 
 namespace LibraryV3.NUnit.Tests.Api2;
 
-public class GetBooksTests: LibraryTestFixture
+public class GetBooksTests : LibraryTestFixture
 {
     private Book _book;
 
@@ -18,11 +18,10 @@ public class GetBooksTests: LibraryTestFixture
 
     [Test, Order(1)]
     [Description("This test checks if the book is found by its title successfully")]
-
     public async Task GetBookByTitleAsync_ReturnOK()
     {
         var httpResponseMessage = await _libraryHttpService.GetBooksByTitle(_book.Title);
-        
+
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
@@ -31,15 +30,15 @@ public class GetBooksTests: LibraryTestFixture
     public async Task GetBookByAuthorAsync_ReturnOK()
     {
         var httpResponseMessage = await _libraryHttpService.GetBooksByAuthor(_book.Author);
-        
+
         Assert.That(httpResponseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
     private async Task CreateBook()
     {
         var book = DataHelper.CreateBook();
-            
-        var httpResponseMessage = 
+
+        var httpResponseMessage =
             await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         _book = JsonConvert.DeserializeObject<Book>(content);

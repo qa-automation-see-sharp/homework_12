@@ -18,8 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\LibraryV3\LibraryV3.csproj" />
-      <ProjectReference Include="..\Test.Utils\Test.Utils.csproj" />
+        <ProjectReference Include="..\..\src\LibraryV3\LibraryV3.csproj"/>
+        <ProjectReference Include="..\Test.Utils\Test.Utils.csproj"/>
     </ItemGroup>
 
 </Project>

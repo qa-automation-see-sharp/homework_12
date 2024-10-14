@@ -6,11 +6,11 @@ using Test.Utils.TestHelpers;
 
 namespace LibraryV3.xUnit.Tests.Api;
 
-    public class CreateBookTests : LibraryTestFixture
+public class CreateBookTests : LibraryTestFixture
 {
     public CreateBookTests()
     {
-        OneTimeSetUpAsync().GetAwaiter().GetResult(); 
+        OneTimeSetUpAsync().GetAwaiter().GetResult();
     }
 
     private async Task OneTimeSetUpAsync()
@@ -25,7 +25,7 @@ namespace LibraryV3.xUnit.Tests.Api;
         var book = DataHelper.CreateBook();
 
         // Act
-        var httpResponseMessage = 
+        var httpResponseMessage =
             await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
@@ -42,16 +42,16 @@ namespace LibraryV3.xUnit.Tests.Api;
     {
         // Arrange
         var book = DataHelper.CreateBook();
-        
-        var httpResponseMessage = 
+
+        var httpResponseMessage =
             await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
-        
+
         // Act
-        var httpResponseMessage2 = 
+        var httpResponseMessage2 =
             await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, bookFromResponse);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, httpResponseMessage2.StatusCode);
         Assert.Equal(book.Title, bookFromResponse.Title);

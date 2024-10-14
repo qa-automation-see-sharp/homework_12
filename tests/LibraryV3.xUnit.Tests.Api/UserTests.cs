@@ -4,7 +4,7 @@ using static Test.Utils.TestHelpers.DataHelper;
 
 namespace LibraryV3.xUnit.Tests.Api;
 
-public class UserTests: LibraryTestFixture
+public class UserTests : LibraryTestFixture
 {
     [Fact]
     public async Task RegisterUserAsync_ReturnCreated()

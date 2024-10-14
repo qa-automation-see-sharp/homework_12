@@ -1,4 +1,3 @@
-using LibraryV3.Services;
 using Test.Utils;
 
 namespace LibraryV3.NUnit.Tests.Api2;

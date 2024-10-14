@@ -5,7 +5,7 @@ using Test.Utils.TestHelpers;
 
 namespace LibraryV3.NUnit.Tests.Api2;
 
-public class CreateBookTests: LibraryTestFixture
+public class CreateBookTests : LibraryTestFixture
 {
     [OneTimeSetUp]
     public async Task OneTimeSetUpAsync()
@@ -21,7 +21,7 @@ public class CreateBookTests: LibraryTestFixture
         var book = DataHelper.CreateBook();
 
         //Act
-        var httpResponseMessage = 
+        var httpResponseMessage =
             await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
         var content = await httpResponseMessage.Content.ReadAsStringAsync();
         var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
@@ -37,28 +37,27 @@ public class CreateBookTests: LibraryTestFixture
     }
 
     [Test]
-        public async Task CreateExistingBookAsync_ReturnBadRequest()
+    public async Task CreateExistingBookAsync_ReturnBadRequest()
+    {
+        //Arrange
+        var book = DataHelper.CreateBook();
+
+        var httpResponseMessage =
+            await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
+        var content = await httpResponseMessage.Content.ReadAsStringAsync();
+        var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
+
+        //Act
+        var httpResponseMessage2 =
+            await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, bookFromResponse);
+
+        //Assert
+        Assert.Multiple(() =>
         {
-            //Arrange
-            var book = DataHelper.CreateBook();
-            
-            var httpResponseMessage = 
-                await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, book);
-            var content = await httpResponseMessage.Content.ReadAsStringAsync();
-            var bookFromResponse = JsonConvert.DeserializeObject<Book>(content);
-            
-            //Act
-            var httpResponseMessage2 = 
-                await _libraryHttpService.PostBook(_libraryHttpService.DefaultUserAuthToken.Token, bookFromResponse);
-            
-            //Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(httpResponseMessage2.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-                Assert.That(bookFromResponse.Title, Is.EqualTo(book.Title));
-                Assert.That(bookFromResponse.Author, Is.EqualTo(book.Author));
-                Assert.That(bookFromResponse.YearOfRelease, Is.EqualTo(book.YearOfRelease));
-            });
-            
-        }
+            Assert.That(httpResponseMessage2.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(bookFromResponse.Title, Is.EqualTo(book.Title));
+            Assert.That(bookFromResponse.Author, Is.EqualTo(book.Author));
+            Assert.That(bookFromResponse.YearOfRelease, Is.EqualTo(book.YearOfRelease));
+        });
+    }
 }
